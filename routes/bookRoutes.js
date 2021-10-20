@@ -6,6 +6,7 @@ const Author = require("../models/Author.model");
 
 router.get("/books", (req, res, next) => {
     Book.find()
+        .populate('author')              //to include the details of the property author, written in Book.model
         .then( (booksFromDB) => {
             const data = {
                 booksArr: booksFromDB
@@ -72,6 +73,7 @@ router.post("/books/create", (req, res, next) => {
 
 router.get("/books/:bookId", (req, res, next) => {
     Book.findById(req.params.bookId)
+        .populate('author')
         .then( (bookFromDB) => {
             res.render("books/book-details", bookFromDB);
         })
