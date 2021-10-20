@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Book = require("../models/Book.model");
+const Author = require("../models/Author.model");
 
 
 
@@ -20,7 +21,16 @@ router.get("/books", (req, res, next) => {
 
 
 router.get('/books/create', (req, res, next) => {
-    res.render("books/book-create");
+    Author.find()
+    .then((authorsFromDB)=>{
+        res.render("books/book-create", {authorsArr: authorsFromDB});
+
+    })
+    .catch( (error) => {
+        console.log("Error getting authors from the DB", error);
+        next(error);
+    });
+   
 });
 
 
